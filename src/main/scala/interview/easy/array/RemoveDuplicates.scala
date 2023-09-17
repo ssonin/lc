@@ -11,7 +11,7 @@ object RemoveDuplicates {
 
     val ints = Array(1, 2, 3, 1)
     println(containsDuplicate(ints))
-    println("anagram".groupMapReduce(ch => ch)(_ => 1)((x, y) => x + y))
+    println("anagram".groupMapReduce(ch => ch)(_ => 1)(_ + _))
   }
 
   def removeDuplicates(nums: Array[Int]): Int = {
