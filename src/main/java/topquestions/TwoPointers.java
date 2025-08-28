@@ -26,7 +26,7 @@ public class TwoPointers {
             }
             seen.add(s.charAt(hi));
             hi++;
-            result =  Math.max(result, hi - lo);
+            result = Math.max(result, hi - lo);
         }
         return result;
     }

@@ -1,5 +1,7 @@
 package interview.uber.sortingandsearching;
 
+import common.GridCell;
+
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
@@ -81,7 +83,7 @@ public class NumberOfIslands {
         for (var i = 0; i < m; i++) {
             for (var j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
-                    bfs(grid, new Pair(i, j));
+                    bfs(grid, new GridCell(i, j));
                     result++;
                 }
             }
@@ -89,15 +91,15 @@ public class NumberOfIslands {
         return result;
     }
 
-    private int bfs(char[][] grid, Pair root) {
+    private int bfs(char[][] grid, GridCell root) {
         var result = 0;
-        final var queue = new ArrayDeque<Pair>();
+        final var queue = new ArrayDeque<GridCell>();
         queue.add(root);
         while (!queue.isEmpty()) {
             final var p = queue.removeFirst();
-            if (grid[p.row][p.col] == '1') {
+            if (grid[p.row()][p.col()] == '1') {
                 result++;
-                grid[p.row][p.col] = '0';
+                grid[p.row()][p.col()] = '0';
                 final var neighbors = neighbors(grid, p);
                 queue.addAll(neighbors);
             }
@@ -105,19 +107,19 @@ public class NumberOfIslands {
         return result;
     }
 
-    private List<Pair> neighbors(char[][] grid, Pair root) {
-        final var top = new Pair(root.row - 1, root.col);
-        final var bot = new Pair(root.row + 1, root.col);
-        final var left = new Pair(root.row, root.col - 1);
-        final var right = new Pair(root.row, root.col + 1);
+    private List<GridCell> neighbors(char[][] grid, GridCell root) {
+        final var top = new GridCell(root.row() - 1, root.col());
+        final var bot = new GridCell(root.row() + 1, root.col());
+        final var left = new GridCell(root.row(), root.col() - 1);
+        final var right = new GridCell(root.row(), root.col() + 1);
         return Stream.of(top, bot, left, right)
             .filter(isLand(grid))
             .collect(Collectors.toList());
     }
 
-    private static Predicate<Pair> isLand(char[][] grid) {
-        return not(p -> p.row < 0 || p.col < 0 || p.row >= grid.length
-            || p.col >= grid[0].length || grid[p.row][p.col] == '0');
+    private static Predicate<GridCell> isLand(char[][] grid) {
+        return not(p -> p.row() < 0 || p.col() < 0 || p.row() >= grid.length
+            || p.col() >= grid[0].length || grid[p.row()][p.col()] == '0');
     }
 
     private static class UF {
